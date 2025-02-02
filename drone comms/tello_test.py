@@ -1,4 +1,4 @@
-# file to stream live video of drone
+#testing drone
 
 from djitellopy import Tello
 import time

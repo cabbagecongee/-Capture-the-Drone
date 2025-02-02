@@ -5,15 +5,13 @@ import cv2
 
 global img
 
-#Initialize Keyboard Input
-kp.init()
+kp.init() #initialize keyboard input
 
-#Start Connection With Drone
-drone = tello.Tello()
+
+drone = tello.Tello() #connect to drone
 drone.connect()
 print(drone.get_battery())
-#Start Camera Display Stream
-drone.streamon()
+drone.streamon() #start camera stream
 
 def getKeyboardInput():
     #LEFT RIGHT, FRONT BACK, UP DOWN, YAW VELOCITY
@@ -23,26 +21,26 @@ def getKeyboardInput():
     moveSpeed = 85
     rotationSpeed = 100
 
-    if kp.getKey("LEFT"): lr = -speed #Controlling The Left And Right Movement
+    if kp.getKey("LEFT"): lr = -speed #left right
     elif kp.getKey("RIGHT"): lr = speed
 
-    if kp.getKey("UP"): fb = moveSpeed #Controlling The Front And Back Movement
+    if kp.getKey("UP"): fb = moveSpeed #forward backward
     elif kp.getKey("DOWN"): fb = -moveSpeed
 
-    if kp.getKey("w"): ud = liftSpeed #Controlling The Up And Down Movemnt:
+    if kp.getKey("w"): ud = liftSpeed #up down
     elif kp.getKey("s"): ud = -liftSpeed 
 
-    if kp.getKey("d"): yv = rotationSpeed #Controlling the Rotation:
+    if kp.getKey("d"): yv = rotationSpeed #left right rotation
     elif kp.getKey("a"): yv = -rotationSpeed 
 
-    if kp.getKey("q"): drone.land(); #Landing The Drone
-    elif kp.getKey("e"): drone.takeoff() #Take Off The Drone
+    if kp.getKey("q"): drone.land(); 
+    elif kp.getKey("e"): drone.takeoff() 
 
-    if kp.getKey("z"): #Screen Shot Image From The Camera Display
+    if kp.getKey("z"): #take screenshot of video feed
         cv2.imwrite(f"tellopy/Resources/Images/{time.time()}.jpg", img)
         time.sleep(0.3)
 
-    return [lr, fb, ud, yv] #Return The Given Value
+    return [lr, fb, ud, yv] 
 
 while True:
     keyValues = getKeyboardInput() 

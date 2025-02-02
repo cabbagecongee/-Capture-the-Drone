@@ -2,7 +2,7 @@ import pygame
 
 def init():
     pygame.init()
-    windows = pygame.display.set_mode((400,400)) #set Control Display as 400x400 pixel
+    windows = pygame.display.set_mode((400,400)) #set control display as 400x400 pixel
  
 def getKey(keyName):
     ans = False
