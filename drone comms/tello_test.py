@@ -1,4 +1,4 @@
-#testing drone
+#testing drone - IGNORE
 
 from djitellopy import Tello
 import time

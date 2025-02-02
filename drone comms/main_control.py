@@ -46,7 +46,6 @@ while True:
     keyValues = getKeyboardInput() 
     drone.send_rc_control(keyValues[0],keyValues[1],keyValues[2],keyValues[3]) #control the drone
     img = drone.get_frame_read().frame
-    img = cv2.resize(img, (1080,720))
+    img = cv2.cvtColor(cv2.resize(img, (320,240)), cv2.COLOR_BGR2RGB)
     cv2.imshow("DroneCapture", img)
     cv2.waitKey(1)
-    drone.sleep(0.05)
