@@ -4,9 +4,11 @@ import keystrokes as kp
 import cv2
 
 global img
+faceXML = "C:\\Users\\ying\\AppData\\Local\\Programs\\Python\\Python38\\Lib\\site-packages\\cv2\\data\\haarcascade_frontalface_default.xml"
+
+faceDetector = cv2.CascadeClassifier(faceXML)
 
 kp.init() #initialize keyboard input
-
 
 drone = tello.Tello() #connect to drone
 drone.connect()
@@ -45,7 +47,21 @@ def getKeyboardInput():
 while True:
     keyValues = getKeyboardInput() 
     drone.send_rc_control(keyValues[0],keyValues[1],keyValues[2],keyValues[3]) #control the drone
-    img = drone.get_frame_read().frame
-    img = cv2.cvtColor(cv2.resize(img, (320,240)), cv2.COLOR_BGR2RGB)
-    cv2.imshow("DroneCapture", img)
+    frame = drone.get_frame_read().frame
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    faces = faceDetector.detectMultiScale(gray, scaleFactor = 1.2, minNeighbors = 5, minSize = (30,30), flags = cv2.CASCADE_SCALE_IMAGE)
+    
+    if len(faces) > 0:
+        # cv2.imwrite(f"tellopy/Resources/Images/{time.time()}.jpg", img)
+        face = faces[0]
+
+        (x, y, w, h) = face
+
+        cv2.rectangle(frame, (x, y), (x+w-1, y+h-1), (0, 255, 0), 3)
+
+    if kp.getKey("x"): break
+    cv2.imshow("DroneCapture", cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
     cv2.waitKey(1)
+
+cv2.destroyAllWindows
