@@ -5,8 +5,9 @@ import cv2
 
 global img
 faceXML = "C:\\Users\\ying\\AppData\\Local\\Programs\\Python\\Python38\\Lib\\site-packages\\cv2\\data\\haarcascade_frontalface_default.xml"
-
+smileXML = "C:\\Users\\ying\\AppData\\Local\\Programs\\Python\\Python38\\Lib\\site-packages\\cv2\\data\\haarcascade_smile.xml"
 faceDetector = cv2.CascadeClassifier(faceXML)
+smileDetector = cv2.CascadeClassifier(smileXML) 
 
 kp.init() #initialize keyboard input
 
@@ -52,13 +53,13 @@ while True:
 
     faces = faceDetector.detectMultiScale(gray, scaleFactor = 1.2, minNeighbors = 5, minSize = (30,30), flags = cv2.CASCADE_SCALE_IMAGE)
     
-    if len(faces) > 0:
-        # cv2.imwrite(f"tellopy/Resources/Images/{time.time()}.jpg", img)
-        face = faces[0]
-
-        (x, y, w, h) = face
-
+    for (x, y, w, h) in faces: 
         cv2.rectangle(frame, (x, y), (x+w-1, y+h-1), (0, 255, 0), 3)
+
+        smiles = smileDetector.detectMultiScale(gray[y:y + h, x:x + w] , 1.8, 20) 
+  
+        for (sx, sy, sw, sh) in smiles: 
+            cv2.rectangle(frame[y:y + h, x:x + w], (sx, sy), ((sx + sw), (sy + sh)), (0, 0, 255), 2)
 
     if kp.getKey("x"): break
     cv2.imshow("DroneCapture", cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
