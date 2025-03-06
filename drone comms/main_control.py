@@ -52,11 +52,19 @@ while True:
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     faces = faceDetector.detectMultiScale(gray, scaleFactor = 1.2, minNeighbors = 5, minSize = (30,30), flags = cv2.CASCADE_SCALE_IMAGE)
+
+    picture_taken = False
     
     for (x, y, w, h) in faces: 
         cv2.rectangle(frame, (x, y), (x+w-1, y+h-1), (0, 255, 0), 3)
 
         smiles = smileDetector.detectMultiScale(gray[y:y + h, x:x + w] , 1.8, 20) 
+
+        if len(faces) > 0 and len(smiles) > 0 and picture_taken == False:
+            time.sleep(0.5)
+            cv2.imwrite(f"tellopy/Resources/Images/{time.time()}.jpg", frame)
+            time.sleep(0.3)
+            picture_taken = True
   
         for (sx, sy, sw, sh) in smiles: 
             cv2.rectangle(frame[y:y + h, x:x + w], (sx, sy), ((sx + sw), (sy + sh)), (0, 0, 255), 2)
