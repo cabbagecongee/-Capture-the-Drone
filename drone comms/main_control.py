@@ -1,11 +1,11 @@
-from djitellopy import tello
+from djitellopy import tello #type: ignore
 import time
 import keystrokes as kp
 import cv2
 
 global img
-faceXML = "C:\\Users\\ying\\AppData\\Local\\Programs\\Python\\Python38\\Lib\\site-packages\\cv2\\data\\haarcascade_frontalface_default.xml"
-smileXML = "C:\\Users\\ying\\AppData\\Local\\Programs\\Python\\Python38\\Lib\\site-packages\\cv2\\data\\haarcascade_smile.xml"
+faceXML = ".mypy_cache/data/haarcascades/haarcascade_frontalface_default.xml"
+smileXML = ".mypy_cache/data/haarcascades/haarcascade_smile.xml"
 faceDetector = cv2.CascadeClassifier(faceXML)
 smileDetector = cv2.CascadeClassifier(smileXML) 
 
@@ -40,7 +40,7 @@ def getKeyboardInput():
     elif kp.getKey("e"): drone.takeoff() 
 
     if kp.getKey("z"): #take screenshot of video feed
-        cv2.imwrite(f"tellopy/Resources/Images/{time.time()}.jpg", img)
+        cv2.imwrite(f"tellopy/Resources/Images/{time.time()}.jpg", img) #need to fix doesn't work
         time.sleep(0.3)
 
     return [lr, fb, ud, yv] 
