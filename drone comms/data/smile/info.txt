@@ -1,0 +1,1 @@
+this is the file where photos detected by the smile detection will be placed
